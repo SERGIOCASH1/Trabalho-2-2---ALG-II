@@ -1,6 +1,6 @@
+
 #include <iostream>
 #include <time.h>
-int opcaoJogador;
 
 void imprimirTabuleiro(char tabuleiro[3][3]) {
 	std::cout << "\n" << "\n";
@@ -61,7 +61,7 @@ bool alguemGanhou(char tabuleiro[3][3]) {
 	return false;
 }
 
-void entradaJogador(char tabuleiro[3][3]) {
+void entradaJogador(char tabuleiro[3][3], int escolha) {
 	while (true) {
 		int x, y;
 		std::cout << "Digite a linha e coluna da jogada (0 a 2):\n";
@@ -77,15 +77,11 @@ void entradaJogador(char tabuleiro[3][3]) {
 			continue;
 		}
 		else {
-      if (opcaoJogador == 1){
-        tabuleiro[x][y] = 'X';
-			  return;
-      }
-      else{
+      if(escolha == 0)
+			  tabuleiro[x][y] = 'X';
+      else
         tabuleiro[x][y] = 'O';
-			  return;
-      }
-			
+			return;
 		}
 
 	}
@@ -111,35 +107,18 @@ int min(char tabuleiro[3][3]) {
 
 	int minJogada = 2;
 
-  if (opcaoJogador == 1){
-    for (int i = 0; i < 3; i++) {
-		  for (int j = 0; j < 3; j++) {
-			  if (tabuleiro[i][j] == ' ') {
-				  tabuleiro[i][j] = 'O';
-				  int jogada = max(tabuleiro);
-				  tabuleiro[i][j] = ' ';
-				  if (jogada < minJogada) {
-					  minJogada = jogada;
-				  }
-			  }
-		  }
-	  }
-  }
-  else{
-    for (int i = 0; i < 3; i++) {
-		  for (int j = 0; j < 3; j++) {
-			  if (tabuleiro[i][j] == ' ') {
-				  tabuleiro[i][j] = 'X';
-				  int jogada = max(tabuleiro);
-				  tabuleiro[i][j] = ' ';
-				  if (jogada < minJogada) {
-					  minJogada = jogada;
-				  }
-			  }
-		  }
-	  }
-  }
-
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (tabuleiro[i][j] == ' ') {
+				tabuleiro[i][j] = 'O';
+				int jogada = max(tabuleiro);
+				tabuleiro[i][j] = ' ';
+				if (jogada < minJogada) {
+					minJogada = jogada;
+				}
+			}
+		}
+	}
 	return minJogada;
 }
 
@@ -151,74 +130,38 @@ int max(char tabuleiro[3][3]) {
 
 	int maxJogada = -2;
 
-  if (opcaoJogador == 1){
-    for (int i = 0; i < 3; i++) {
-		  for (int j = 0; j < 3; j++) {
-			  if (tabuleiro[i][j] == ' ') {
-				  tabuleiro[i][j] = 'X';
-				  int jogada = min(tabuleiro);
-				  tabuleiro[i][j] = ' ';
-				  if (jogada > maxJogada) {
-					  maxJogada = jogada;
-				  }
-			  }
-		  }
-	  }
-  }
-  else{
-    for (int i = 0; i < 3; i++) {
-		  for (int j = 0; j < 3; j++) {
-			  if (tabuleiro[i][j] == ' ') {
-				  tabuleiro[i][j] = 'O';
-				  int jogada = min(tabuleiro);
-				  tabuleiro[i][j] = ' ';
-				  if (jogada > maxJogada) {
-					  maxJogada = jogada;
-				  }
-			  }
-		  }
-	  }
-  }
-	
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (tabuleiro[i][j] == ' ') {
+				tabuleiro[i][j] = 'X';
+				int jogada = min(tabuleiro);
+				tabuleiro[i][j] = ' ';
+				if (jogada > maxJogada) {
+					maxJogada = jogada;
+				}
+			}
+		}
+	}
 	return maxJogada;
 }
 
 void oponenteDecisaoMinMax(char tabuleiro[3][3], int &x, int&y) {
 	int minJogada = 2;
 
-  if (opcaoJogador == 1){
-    for (int i = 0; i < 3; i++) {
-		  for (int j = 0; j < 3; j++) {
-			  if (tabuleiro[i][j] == ' ') {
-				  tabuleiro[i][j] = 'O';
-				  int jogada = max(tabuleiro);
-				  tabuleiro[i][j] = ' ';
-				  if (jogada < minJogada) {
-					  minJogada = jogada;
-					  x = i;
-					  y = j;
-				  }
-			  }
-		  }
-	  }
-  }
-  else{
-    for (int i = 0; i < 3; i++) {
-		  for (int j = 0; j < 3; j++) {
-			  if (tabuleiro[i][j] == ' ') {
-				  tabuleiro[i][j] = 'X';
-				  int jogada = max(tabuleiro);
-				  tabuleiro[i][j] = ' ';
-				  if (jogada < minJogada) {
-					  minJogada = jogada;
-					  x = i;
-					  y = j;
-				  }
-			  }
-		  }
-	  }
-  }
-	
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (tabuleiro[i][j] == ' ') {
+				tabuleiro[i][j] = 'O';
+				int jogada = max(tabuleiro);
+				tabuleiro[i][j] = ' ';
+				if (jogada < minJogada) {
+					minJogada = jogada;
+					x = i;
+					y = j;
+				}
+			}
+		}
+	}
 
 	std::cout << "MIN: " << minJogada << "\n";
 }
@@ -233,7 +176,7 @@ void oponenteMinMax(char tabuleiro[3][3], int &x, int&y) {
 	y = rand() % 3;
 }
 
-void jogadaOponente(char tabuleiro[3][3]) {
+void jogadaOponente(char tabuleiro[3][3], int escolha) {
 	for(int i = 0; i < 100; i++) {
 		int x, y;
 		oponenteDecisaoMinMax(tabuleiro, x, y);
@@ -243,19 +186,14 @@ void jogadaOponente(char tabuleiro[3][3]) {
 			continue;
 		}
 		else {
-      if (opcaoJogador == 1){
-        std::cout << "O oponente jogou em " << x << " " << y << "\n";
-			  tabuleiro[x][y] = 'O';
-			  return;
+    std::cout << "O oponente jogou em " << x << " " << y  << "\n";
+      if(escolha == 0) {
+        tabuleiro[x][y] = 'O';
+      } else {
+        tabuleiro[x][y] = 'X';
       }
-      else{
-        std::cout << "O oponente jogou em " << x << " " << y << "\n";
-			  tabuleiro[x][y] = 'X';
-			  return;
-      }
-			
+      return;
 		}
-
 	}
 }
 
@@ -263,16 +201,41 @@ int main()
 {
 	srand(time(NULL));
 	char tabuleiro[3][3] = { {' ' , ' ', ' '}, {' ' , ' ', ' '}, {' ' , ' ', ' '} };
-  std::cout << "Insira 1 se deseja jogar com X, qualquer número para O:\n ";
-  std::cin >> opcaoJogador;
-	
+
+  int escolha=0;
+  do {
+    std::cout << "Digite 0 para começar jogando e 1 para o NPC começar jogando. Caso queira que dois NPCs joguem entre si, digite 2: ";
+    std::cin >> escolha;
+    if(escolha != 0 && escolha != 1 && escolha != 2)
+      std::cout << "Opção inválida!";
+  }while(escolha != 0 && escolha != 1 && escolha != 2);
+
+
+  
+
 	while (!alguemGanhou((tabuleiro)) && !deuVelha(tabuleiro)) {
-		entradaJogador(tabuleiro);
-		if (alguemGanhou(tabuleiro) || deuVelha(tabuleiro)) {
-			break;
-		}
-		jogadaOponente(tabuleiro);
-		imprimirTabuleiro(tabuleiro);
+    if(escolha == 0) {
+      entradaJogador(tabuleiro,escolha);
+		  if (alguemGanhou(tabuleiro) || deuVelha(tabuleiro)) {
+			  break;
+		  }
+		  jogadaOponente(tabuleiro, escolha);
+		  imprimirTabuleiro(tabuleiro);
+    }else if(escolha == 1) {
+      jogadaOponente(tabuleiro, escolha);
+		  if (alguemGanhou(tabuleiro) || deuVelha(tabuleiro)) {
+			  break;
+		  }
+      imprimirTabuleiro(tabuleiro);
+      entradaJogador(tabuleiro,escolha);
+    }else if(escolha == 2){
+      jogadaOponente(tabuleiro, 1);
+      if (alguemGanhou(tabuleiro) || deuVelha(tabuleiro)) {
+			  break;
+		  } 
+      jogadaOponente(tabuleiro, 0);
+      imprimirTabuleiro(tabuleiro);
+    }
 	}
 
 	imprimirTabuleiro(tabuleiro);
